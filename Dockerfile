@@ -1,14 +1,10 @@
-FROM postgres:latest
+FROM python:slim
 
-WORKDIR /scripts
-
-COPY db/data_generator/data /scripts/data
-COPY setup_user.sql /scripts/
-COPY scripts/ /scripts/db
+RUN apt-get update && apt-get install -yqq make
+RUN pip install poetry
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 
 
-RUN cat /scripts/db/*.sql > /tmp/chartsdb.sql
-
-RUN echo "createdb chartsdb" >> /docker-entrypoint-initdb.d/run.sh
-RUN echo "psql -d chartsdb -U postgres -f /tmp/chartsdb.sql" >> /docker-entrypoint-initdb.d/run.sh
-RUN echo "psql -d chartsdb -U postgres -f /scripts/setup_user.sql" >> /docker-entrypoint-initdb.d/run.sh
+WORKDIR /app
+COPY . .
+RUN poetry install

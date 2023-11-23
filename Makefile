@@ -1,28 +1,21 @@
+dev:
+	poetry run flask  --app app.server run --debug -h 0.0.0.0 -p 3000
+
+run:
+	poetry run gunicorn -w 4 -b 0.0.0.0:3000 app.server:app
+
 start:
 	make stop rm || true
-	docker run -it \
-		-p 5432:5432 \
-		-e POSTGRES_PASSWORD=password \
-		--name data-chartsdb \
-		data-chartsdb
+	docker run -p 3000:3000 app-chartsdb make run
 
 build:
-	docker build . -t data-chartsdb
+	docker build . -t app-chartsdb
 
 stop:
-	docker stop data-chartsdb
+	docker stop app-chartsdb
 
 rm:
-	docker rm data-chartsdb
+	docker rm app-chartsdb
 
 bash:
-	docker run --rm -it data-chartsdb bash
-
-compose:
-	docker compose up
-
-compose-build:
-	docker compose build
-
-compose-down:
-	docker compose down -v --remove-orphans
+	docker run --rm -it app-chartsdb bash
