@@ -1,0 +1,26 @@
+---
+
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+
+  app:
+    build:
+      context: api/
+    environment:
+      # NOTE: для обратной совместимости и возможности одинаково работать с базой на проде
+      DATABASE_URL: postgres://student:student@db:5432/chartsdb
+    command: make run
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
