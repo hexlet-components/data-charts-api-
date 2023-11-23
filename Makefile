@@ -6,16 +6,16 @@ run:
 
 start:
 	make stop rm || true
-	docker run -p 3000:3000 app-chartsdb make run
+	docker run -p 3000:3000 data-charts-api make run
 
 build:
-	docker build . -t app-chartsdb
+	docker build . -t data-charts-api
 
 stop:
-	docker stop app-chartsdb
+	docker stop data-charts-api
 
 rm:
-	docker rm app-chartsdb
+	docker rm data-charts-api
 
 bash:
-	docker run --rm -it app-chartsdb bash
+	docker run --rm -it data-charts-api bash
