@@ -9,4 +9,4 @@ WORKDIR /app
 COPY . .
 RUN poetry install
 
-CMD ["make run"]
+CMD ["make", "run"]
