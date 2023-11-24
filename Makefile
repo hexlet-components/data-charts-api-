@@ -1,15 +1,20 @@
+PORT=3000
+
+install:
+	poetry install
+
 dev:
-	poetry run flask  --app app.server run --debug -h 0.0.0.0 -p 3000
+	poetry run flask  --app app.server run --debug -h 0.0.0.0 -p $(PORT)
 
 run:
-	poetry run gunicorn -w 4 -b 0.0.0.0:3000 app.server:app
+	poetry run gunicorn -w 4 -b 0.0.0.0:$(PORT) app.server:app
 
 start:
 	make stop rm || true
-	docker run -p 3000:3000 data-charts-api make run
+	docker run -p $(PORT):$(PORT) data-charts-api make run
 
 build:
-	docker build . -t data-charts-api
+	docker build . --tag=data-charts-api
 
 stop:
 	docker stop data-charts-api
