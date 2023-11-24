@@ -8,3 +8,5 @@ ENV POETRY_VIRTUALENVS_IN_PROJECT=true
 WORKDIR /app
 COPY . .
 RUN poetry install
+
+CMD ["make run"]
