@@ -4,6 +4,7 @@ import logging
 import traceback
 import os
 import psycopg
+from psycopg.rows import dict_row
 
 from dotenv import load_dotenv
 
@@ -37,7 +38,7 @@ def get_visits():
         FROM visits
         WHERE visits.datetime BETWEEN (%s) AND (%s);'''
     conn = get_db()
-    with conn.cursor() as c:
+    with conn.cursor(row_factory=dict_row) as c:
         c.execute(query, [begin_date, end_date])
         res = c.fetchall()
     return res
@@ -57,7 +58,7 @@ def get_registrations():
         FROM registrations
         WHERE registrations.datetime BETWEEN (%s) AND (%s);'''
     conn = get_db()
-    with conn.cursor() as c:
+    with conn.cursor(row_factory=dict_row) as c:
         c.execute(query, [begin_date, end_date])
         res = c.fetchall()
     return res
