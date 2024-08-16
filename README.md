@@ -1,5 +1,7 @@
 # API for charts-project
 
+https://data-charts-api.hexlet.app/
+
 ## Commands
 
 ```bash
