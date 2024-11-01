@@ -1,17 +1,26 @@
-[tool.poetry]
-name = "app"
+[project]
+name = "data-charts-api"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "api for data charts project"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.0.3",
+    "gunicorn>=23.0.0",
+    "psycopg>=3.2.3",
+    "python-dotenv>=1.0.1",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-flask = "^3.0.0"
-gunicorn = "^21.2.0"
-python-dotenv = "^1.0.0"
-psycopg = {extras = ["binary"], version = "^3.1.13"}
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.3.3",
+    "requests>=2.32.3",
+    "ruff>=0.7.2",
+]
 
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

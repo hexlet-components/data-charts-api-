@@ -1,12 +1,12 @@
-from flask import Flask, request
-from datetime import datetime
 import logging
-import traceback
 import os
-import psycopg
-from psycopg.rows import dict_row
+import traceback
+from datetime import datetime
 
+import psycopg
 from dotenv import load_dotenv
+from flask import Flask, request
+from psycopg.rows import dict_row
 
 load_dotenv()
 

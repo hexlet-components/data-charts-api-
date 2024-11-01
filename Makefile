@@ -1,13 +1,13 @@
 PORT ?= 4000
 
 install:
-	poetry install
+	uv sync
 
 dev:
-	poetry run flask  --app app.server run --debug -h 0.0.0.0 -p $(PORT)
+	uv run flask --app app.server run --debug -h 0.0.0.0 -p $(PORT)
 
 run:
-	poetry run gunicorn -w 4 -b 0.0.0.0:$(PORT) app.server:app
+	uv run gunicorn -w 4 -b 0.0.0.0:$(PORT) app.server:app
 
 start:
 	make stop rm || true
@@ -24,3 +24,19 @@ rm:
 
 bash:
 	docker run --rm -it data-charts-api bash
+
+PID_FILE = server.pid
+
+test:
+	env PORT=$(PORT) DATABASE_URL=postgres://student:student@65.108.223.44:5432/chartsdb \
+	make dev & echo $$! > $(PID_FILE) && \
+	sleep 2 && \
+	uv run pytest; \
+	status=$$?; \
+	if [ -f $(PID_FILE) ]; then kill `cat $(PID_FILE)` && rm $(PID_FILE); fi; \
+	exit $$status
+
+lint:
+	uv run ruff check .
+
+check: test lint
