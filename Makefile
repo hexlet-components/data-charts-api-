@@ -4,10 +4,10 @@ install:
 	uv sync
 
 dev:
-	uv run flask --app app.server run --debug -h 0.0.0.0 -p $(PORT)
+	uv run fastapi dev app/server.py --host 0.0.0.0 --port $(PORT)
 
 run:
-	uv run gunicorn -w 4 -b 0.0.0.0:$(PORT) app.server:app
+	uv run granian --interface asgi --workers 10 --host 0.0.0.0 --port $(PORT) app.server:app
 
 start:
 	make stop rm || true
@@ -34,6 +34,7 @@ test:
 	uv run pytest; \
 	status=$$?; \
 	if [ -f $(PID_FILE) ]; then kill `cat $(PID_FILE)` && rm $(PID_FILE); fi; \
+	sleep 1; \
 	exit $$status
 
 lint:
