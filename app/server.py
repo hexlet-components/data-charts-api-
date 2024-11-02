@@ -6,6 +6,10 @@ from datetime import datetime
 import asyncpg
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.inmemory import InMemoryBackend
+from fastapi_cache.decorator import cache
 
 load_dotenv()
 
@@ -18,10 +22,12 @@ async def lifespan(app: FastAPI):
         min_size=5,
         max_size=20
     )
+    FastAPICache.init(InMemoryBackend())
     yield
     await app.state.pool.close()
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 async def get_db():
     async with app.state.pool.acquire() as conn:
@@ -34,6 +40,7 @@ async def index():
 
 
 @app.get("/visits")
+@cache(expire=300)
 async def get_visits(
     begin: str = Query(..., description="Start date in ISO format"),
     end: str = Query(..., description="End date in ISO format"),
@@ -57,6 +64,7 @@ async def get_visits(
         )
 
 @app.get("/registrations")
+@cache(expire=300)
 async def get_registrations(
     begin: str = Query(..., description="Start date in ISO format"),
     end: str = Query(..., description="End date in ISO format"),
