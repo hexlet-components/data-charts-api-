@@ -8,10 +8,9 @@ dependencies = [
     "asyncpg>=0.30.0",
     "fastapi[standard]>=0.115.4",
     "flask>=3.0.3",
-    "granian>=1.6.3",
-    "gunicorn>=23.0.0",
-    "psycopg>=3.2.3",
+    "psycopg[binary]>=3.2.3",
     "python-dotenv>=1.0.1",
+    "uvicorn>=0.32.0",
 ]
 
 [tool.uv]

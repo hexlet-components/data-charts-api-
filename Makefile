@@ -7,7 +7,7 @@ dev:
 	uv run fastapi dev app/server.py --host 0.0.0.0 --port $(PORT)
 
 run:
-	uv run granian --interface asgi --workers 10 --host 0.0.0.0 --port $(PORT) app.server:app
+	uv run uvicorn --workers 4 --host 0.0.0.0 --port $(PORT) app.server:app
 
 start:
 	make stop rm || true
