@@ -37,10 +37,10 @@ def get_visits():
         SELECT *
         FROM visits
         WHERE visits.datetime BETWEEN (%s) AND (%s);'''
-    conn = get_db()
-    with conn.cursor(row_factory=dict_row) as c:
-        c.execute(query, [begin_date, end_date])
-        res = c.fetchall()
+    with get_db() as conn:
+        with conn.cursor(row_factory=dict_row) as c:
+            c.execute(query, [begin_date, end_date])
+            res = c.fetchall()
     return res
 
 
@@ -57,8 +57,8 @@ def get_registrations():
         SELECT *
         FROM registrations
         WHERE registrations.datetime BETWEEN (%s) AND (%s);'''
-    conn = get_db()
-    with conn.cursor(row_factory=dict_row) as c:
-        c.execute(query, [begin_date, end_date])
-        res = c.fetchall()
+    with get_db() as conn:
+        with conn.cursor(row_factory=dict_row) as c:
+            c.execute(query, [begin_date, end_date])
+            res = c.fetchall()
     return res
