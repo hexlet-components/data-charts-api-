@@ -4,24 +4,24 @@ install:
 	uv sync
 
 dev:
-	uv run flask --app app.server run --debug -h 0.0.0.0 -p $(PORT)
+	uv run fastapi dev app/server.py --host 0.0.0.0 --port $(PORT)
 
 run:
-	uv run gunicorn -w 4 -b 0.0.0.0:$(PORT) app.server:app
+	uv run uvicorn --workers 4 --host 0.0.0.0 --port $(PORT) app.server:app
 
 build:
 	docker build . --tag=data-charts-api
 
 start:
-	-docker stop data-charts-api
-	-docker rm data-charts-api
+	-docker stop data-charts-api || true
+	-docker rm data-charts-api || true
 	docker run -d --name data-charts-api -p $(PORT):$(PORT) data-charts-api
 
 stop:
-	-docker stop data-charts-api
+	-docker stop data-charts-api || true
 
 rm:
-	-docker rm data-charts-api
+	-docker rm data-charts-api || true
 
 bash:
 	docker run --rm -it data-charts-api bash

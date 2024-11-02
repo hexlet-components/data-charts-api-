@@ -4,8 +4,6 @@ RUN apt-get update && \
     apt-get install -y make && \
     pip install uv
 
-ENV UV_COMPILE_BYTECODE=1
-
 WORKDIR /app
 COPY . .
 RUN make install
