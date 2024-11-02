@@ -4,10 +4,6 @@ RUN apt-get update && \
     apt-get install -y make && \
     pip install uv
 
-ENV UV_LINK_MODE=copy
-ENV UV_COMPILE_BYTECODE=1
-RUN --mount=type=cache,target=/root/.cache/uv
-
 WORKDIR /app
 COPY . .
 RUN make install
