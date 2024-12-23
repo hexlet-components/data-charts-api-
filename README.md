@@ -16,8 +16,8 @@ make compose
 
 ```bash
 # return all visits from begin to end dates
-/visits?begin=BEGIN_DATE&end=END_DATE
+/visits?begin=2023-03-01&end=2023-04-01
 
 # return all registrations from begin to end dates
-/registrations?begin=BEGIN_DATE&end=END_DATE
+/registrations?begin=2023-03-01&end=2023-04-01
 ```

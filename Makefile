@@ -9,6 +9,8 @@ dev:
 run:
 	uv run uvicorn --workers 4 --host 0.0.0.0 --port $(PORT) app.server:app
 
+compose: build start
+
 build:
 	docker build . --tag=data-charts-api
 
